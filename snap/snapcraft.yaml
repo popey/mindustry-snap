@@ -1,0 +1,96 @@
+name: mindustry
+base: core18
+version: "94"
+summary: A sandbox tower defense game
+description: |
+  Mindustry is a hybrid tower-defense sandbox factory game. Create elaborate
+  supply chains of conveyor belts to feed ammo into your turrets, produce
+  materials to use for building, and defend your structures from waves of
+  enemies. Features include a map editor, 24 built-in maps, cross-platform
+  multiplayer and large-scale PvP unit battles.
+
+grade: stable
+confinement: strict
+
+apps:
+  mindustry:
+    command: desktop-launch $SNAP/bin/launcher
+    plugs:
+    - network
+    - network-bind
+    - opengl
+    - home
+    - joystick
+    - pulseaudio
+    - desktop
+    - wayland
+    - x11
+    - desktop-legacy
+    - unity7
+    environment:
+      XDG_DATA_HOME: "$SNAP/usr/share"
+      JAVA_HOME: "$SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre/"
+      PATH: "$SNAP/bin:$PATH:$SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
+      GVFS_MOUNTABLE_DIR: "$SNAP/usr/share/gvfs/mounts"
+      GVFS_MONITOR_DIR: "$SNAP/usr/share/gvfs/remote-volume-monitors"
+      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
+
+parts:
+  mindustry:
+    after: [desktop-gtk2]
+    plugin: nil
+    override-build: |
+      wget -O $SNAPCRAFT_PART_INSTALL/Mindustry.jar https://github.com/Anuken/Mindustry/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Mindustry.jar
+    build-packages:
+      - wget
+    stage-packages:
+      - openjdk-8-jre
+      - ca-certificates
+      - ca-certificates-java
+      - libpulse0
+      - libpulsedsp
+      - libxxf86vm1
+      - libgl1-mesa-dri
+      - libglu1-mesa
+      - libgl1-mesa-glx
+      - libgles2-mesa
+      - x11-xserver-utils
+    prime:
+        - -usr/lib/jvm/java-*/lib/security/cacerts
+        - -usr/lib/jvm/java-*/jre/lib/security/cacerts
+  launcher:
+    plugin: dump
+    source: snap/local
+    organize:
+      'launcher': 'bin/'
+      'padsp': 'bin/'
+      'sensible-browser': 'bin/'
+      'usr/lib/*/gvfs/*.so': 'usr/lib'
+      'usr/bin/xprop': 'usr/bin/xprop.disabled'
+  desktop-gtk2:
+    build-packages:
+      - build-essential
+      - libgtk2.0-dev
+    make-parameters:
+      - FLAVOR=gtk2
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: gtk
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libgtk2.0-0
+      - libgdk-pixbuf2.0-0
+      - libglib2.0-bin
+      - libgtk2.0-bin
+      - unity-gtk2-module
+      - locales-all
+      - libappindicator1
+      - xdg-user-dirs
+      - ibus-gtk
+      - libibus-1.0-5
