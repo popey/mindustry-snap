@@ -1,6 +1,6 @@
 name: mindustry
 base: core18
-version: "96"
+version: "98"
 summary: A sandbox tower defense game
 description: |
   Mindustry is a hybrid tower-defense sandbox factory game. Create elaborate
