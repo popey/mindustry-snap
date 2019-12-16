@@ -1,6 +1,6 @@
 name: mindustry
 base: core18
-version: "100"
+adopt-info: mindustry
 summary: A sandbox tower defense game
 description: |
   Mindustry is a hybrid tower-defense sandbox factory game. Create elaborate
@@ -36,13 +36,27 @@ apps:
       LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
 
 parts:
+  build-trigger:
+    source: https://github.com/Anuken/Mindustry.git
+    plugin: nil
   mindustry:
     after: [desktop-gtk2]
     plugin: nil
     override-build: |
-      wget -O $SNAPCRAFT_PART_INSTALL/Mindustry.jar https://github.com/Anuken/Mindustry/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Mindustry.jar
+      # Get the latest releases json
+      echo "Get GitHub releases..."
+      wget --quiet https://api.github.com/repos/Anuken/Mindustry/releases/latest -O releases.json
+      # Get the version from the tag_name and the download URL.
+      VERSION=$(jq . releases.json | grep tag_name | cut -d'"' -f4 | sed s'/v//')
+      JAR_URL=$(cat releases.json | jq -r ".assets[] | select(.name | test(\"jar\")) | .browser_download_url" | grep -v "server-release")
+      echo "Downloading ${JAR_URL}..."
+      wget --quiet "${JAR_URL}" -O "${SNAPCRAFT_PART_INSTALL}/game.love"
+      rm -f releases.json 2>/dev/null
+      snapcraftctl set-version "$VERSION"
     build-packages:
       - wget
+      - jq
+      - sed
     stage-packages:
       - openjdk-8-jre
       - ca-certificates
