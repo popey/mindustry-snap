@@ -1,4 +1,3 @@
-
 language: bash
 dist: xenial
 
@@ -12,7 +11,7 @@ env:
 addons:
   snaps:
     - name: snapcraft
-      channel: stable
+      channel: candidate
       classic: true
     - name: http
     - name: transfer
@@ -32,4 +31,3 @@ after_success:
 after_failure:
   - sudo journalctl -u snapd
   - http https://api.snapcraft.io/v2/snaps/info/core architecture==amd64 Snap-Device-Series:16
-
