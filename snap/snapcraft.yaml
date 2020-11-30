@@ -33,7 +33,7 @@ apps:
       PATH: "$SNAP/bin:$PATH:$SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
       GVFS_MOUNTABLE_DIR: "$SNAP/usr/share/gvfs/mounts"
       GVFS_MONITOR_DIR: "$SNAP/usr/share/gvfs/remote-volume-monitors"
-      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
+      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:$LD_LIBRARY_PATH"
 
 parts:
   build-trigger:
