@@ -14,8 +14,6 @@ confinement: strict
 
 architectures:
   - build-on: amd64
-  - build-on: arm64
-  - build-on: armhf
 
 apps:
   mindustry:
@@ -34,7 +32,6 @@ apps:
     - unity7
     environment:
       XDG_DATA_HOME: "$SNAP/usr/share"
-      PATH: "$SNAP/bin:$PATH:$SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
       GVFS_MOUNTABLE_DIR: "$SNAP/usr/share/gvfs/mounts"
       GVFS_MONITOR_DIR: "$SNAP/usr/share/gvfs/remote-volume-monitors"
       LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
@@ -47,7 +44,6 @@ parts:
     after: [desktop-gtk2]
     plugin: nil
     source: https://github.com/Anuken/Mindustry.git
-    source-tag: "v117"
     override-build: |
       # Get the latest releases json
       echo "Get GitHub releases..."
