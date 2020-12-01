@@ -18,6 +18,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with PulseAudio; if not, see <http://www.gnu.org/licenses/>.
 
+
+case "$SNAP_ARCH" in
+    i386) ARCH_TRIPLET="i386-linux-gnu" ;;
+    amd64) ARCH_TRIPLET="x86_64-linux-gnu" ;;
+    s390x) ARCH_TRIPLET="s390x-linux-gnu" ;;
+    ppc64el) ARCH_TRIPLET="powerpc64le-linux-gnu" ;;
+    armhf) ARCH_TRIPLET="arm-linux-gnueabihf" ;;
+    arm64) ARCH_TRIPLET="aarch64-linux-gnu" ;;
+esac
+
+
 while getopts 'hs:n:m:MSDd' param ; do
 	case $param in
 		s)
@@ -74,9 +85,9 @@ done
 shift $(( $OPTIND - 1 ))
 
 if [ x"$LD_PRELOAD" = x ] ; then
-   LD_PRELOAD="$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsedsp.so"
+   LD_PRELOAD="$SNAP/usr/lib/$ARCH_TRIPLET/pulseaudio/libpulsedsp.so"
 else
-   LD_PRELOAD="$LD_PRELOAD $SNAP/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsedsp.so"
+   LD_PRELOAD="$LD_PRELOAD $SNAP/usr/lib/$ARCH_TRIPLET/pulseaudio/libpulsedsp.so"
 fi
 
 export LD_PRELOAD
