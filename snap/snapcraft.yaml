@@ -1,5 +1,5 @@
 name: mindustry
-base: core18
+base: core20
 adopt-info: mindustry
 summary: A sandbox tower defense game
 description: |
@@ -12,9 +12,12 @@ description: |
 grade: stable
 confinement: strict
 
+architectures:
+  - build-on: amd64
+
 apps:
   mindustry:
-    command: desktop-launch $SNAP/bin/launcher
+    command: bin/desktop-launch $SNAP/bin/launcher
     plugs:
     - network
     - network-bind
@@ -29,19 +32,18 @@ apps:
     - unity7
     environment:
       XDG_DATA_HOME: "$SNAP/usr/share"
-      JAVA_HOME: "$SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre/"
-      PATH: "$SNAP/bin:$PATH:$SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
       GVFS_MOUNTABLE_DIR: "$SNAP/usr/share/gvfs/mounts"
       GVFS_MONITOR_DIR: "$SNAP/usr/share/gvfs/remote-volume-monitors"
-      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:$LD_LIBRARY_PATH"
+      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
 
 parts:
-  build-trigger:
-    source: https://github.com/Anuken/Mindustry.git
-    plugin: nil
+  # build-trigger:
+  #   source: https://github.com/Anuken/Mindustry.git
+  #   plugin: nil
   mindustry:
     after: [desktop-gtk2]
     plugin: nil
+    source: https://github.com/Anuken/Mindustry.git
     override-build: |
       # Get the latest releases json
       echo "Get GitHub releases..."
@@ -57,8 +59,9 @@ parts:
       - wget
       - jq
       - sed
+      - openjdk-14-jdk-headless
     stage-packages:
-      - openjdk-8-jre
+      - openjdk-14-jre-headless
       - ca-certificates
       - ca-certificates-java
       - libpulse0
