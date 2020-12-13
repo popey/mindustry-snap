@@ -51,6 +51,7 @@ parts:
   alsa-mixin:
     plugin: dump
     source: https://github.com/diddlesnaps/snapcraft-alsa.git
+    source-commit: e61d460eda2f44ad7fa6865e6827e9e7b606f5c9
     source-subdir: snapcraft-assets
     build-packages:
       - libasound2-dev
