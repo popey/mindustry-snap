@@ -17,31 +17,49 @@ architectures:
 
 apps:
   mindustry:
-    command: bin/desktop-launch $SNAP/bin/launcher
+    command-chain: ["snap/command-chain/alsa-launch", "bin/desktop-launch"]
+    command: bin/launcher
     plugs:
-    - network
-    - network-bind
-    - opengl
-    - home
-    - joystick
-    - pulseaudio
-    - desktop
-    - wayland
-    - x11
-    - desktop-legacy
-    - unity7
+      - audio-playback
+      - network
+      - network-bind
+      - opengl
+      - home
+      - joystick
+      - desktop
+      - wayland
+      - x11
+      - desktop-legacy
+      - unity7
     environment:
       XDG_DATA_HOME: "$SNAP/usr/share"
       GVFS_MOUNTABLE_DIR: "$SNAP/usr/share/gvfs/mounts"
       GVFS_MONITOR_DIR: "$SNAP/usr/share/gvfs/remote-volume-monitors"
       LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
 
+layout:
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
+
 parts:
   # build-trigger:
   #   source: https://github.com/Anuken/Mindustry.git
   #   plugin: nil
+  alsa-mixin:
+    plugin: dump
+    source: https://github.com/popey/snapcraft-alsa.git
+    source-subdir: snapcraft-assets
+    #source-commit: e61d460eda2f44ad7fa6865e6827e9e7b606f5c9
+    build-packages:
+      - libasound2-dev
+    stage-packages:
+      - libasound2
+      - libasound2-plugins
+      - yad
   mindustry:
-    after: [desktop-gtk2]
+    after: [desktop-gtk2,alsa-mixin]
     plugin: nil
     source: https://github.com/Anuken/Mindustry.git
     override-build: |
