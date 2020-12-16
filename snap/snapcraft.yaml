@@ -20,13 +20,12 @@ apps:
     command-chain: ["snap/command-chain/alsa-launch", "bin/desktop-launch"]
     command: bin/launcher
     plugs:
-      - alsa
+      - audio-playback
       - network
       - network-bind
       - opengl
       - home
       - joystick
-      - pulseaudio
       - desktop
       - wayland
       - x11
@@ -50,8 +49,9 @@ parts:
   #   plugin: nil
   alsa-mixin:
     plugin: dump
-    source: https://github.com/diddlesnaps/snapcraft-alsa.git
+    source: https://github.com/popey/snapcraft-alsa.git
     source-subdir: snapcraft-assets
+    #source-commit: e61d460eda2f44ad7fa6865e6827e9e7b606f5c9
     build-packages:
       - libasound2-dev
     stage-packages:
