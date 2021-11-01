@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export JAVA_HOME="$SNAP/usr/lib/jvm/java-14-openjdk-$SNAP_ARCH"
+export JAVA_HOME="$SNAP/usr/lib/jvm/java-16-openjdk-$SNAP_ARCH"
 export JAVA_BIN="$JAVA_HOME/bin/java"
 export PATH="$SNAP/bin:$PATH:$JAVA_HOME/bin"
 
