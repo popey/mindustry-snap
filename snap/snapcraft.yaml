@@ -78,9 +78,9 @@ parts:
       - wget
       - jq
       - sed
-      - openjdk-14-jdk-headless
+      - openjdk-16-jdk-headless
     stage-packages:
-      - openjdk-14-jre-headless
+      - openjdk-16-jre-headless
       - ca-certificates
       - ca-certificates-java
       - libpulse0
