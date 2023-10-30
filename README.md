@@ -1,5 +1,6 @@
 # Mindustry
 
+[![mindustry](https://github.com/popey/mindustry-snap/actions/workflows/test-snap-can-build.yml/badge.svg)](https://github.com/popey/mindustry-snap/actions)
 [![mindustry](https://snapcraft.io/mindustry/badge.svg)](https://snapcraft.io/mindustry)
 [![mindustry](https://snapcraft.io/mindustry/trending.svg?name=0)](https://snapcraft.io/mindustry)
 
