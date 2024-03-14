@@ -68,7 +68,7 @@ parts:
       echo "Get GitHub releases..."
       wget --quiet https://api.github.com/repos/Anuken/Mindustry/releases -O releases.json
       # Get the version from the tag_name and the download URL.
-      VERSION=$(jq . releases.json | grep tag_name | cut -d'"' -f4 | sed s'/v//' | head -n 1)
+      VERSION=$(jq . releases.json | grep tag_name | cut -d'"' -f4 | head -n 1)
       JAR_URL=$(cat releases.json | jq -r ".[0].assets[] | select(.name | test(\"jar\")) | .browser_download_url" | grep -v "server-release")
       echo "Downloading ${JAR_URL}..."
       wget --quiet "${JAR_URL}" -O "${SNAPCRAFT_PART_INSTALL}/Mindustry.jar"
