@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export JAVA_HOME="$SNAP/usr/lib/jvm/java-16-openjdk-$SNAP_ARCH"
+export JAVA_HOME="$SNAP/usr/lib/jvm/java-25-openjdk-$SNAP_ARCH"
 export JAVA_BIN="$JAVA_HOME/bin/java"
 export PATH="$SNAP/bin:$PATH:$JAVA_HOME/bin"
 
@@ -12,6 +12,6 @@ export XDG_CURRENT_DESKTOP=GNOME
 # Fix font / theme
 export _JAVA_OPTIONS='-Dsun.java2d.xrender=true -Dprism.useFontConfig=false -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
 export JAVA_FONTS=$SNAP/usr/share/fonts/truetype
-exec $SNAP/bin/padsp $JAVA_BIN -verbose:jni -jar -Duser.home=$SNAP_USER_COMMON $SNAP/Mindustry.jar "$@"
+exec $JAVA_BIN -jar -Duser.home=$SNAP_USER_COMMON $SNAP/Mindustry.jar "$@"
 
 
