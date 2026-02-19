@@ -1,22 +1,38 @@
-name: 🧪 Test snap can be built on x86_64
+name: 🧪 Test snap can be built
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-    
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: snapcore/action-build@v1
-        id: build
+      - name: Build snap
+        uses: snapcore/action-build@v1
+        id: snapcraft
 
-      - uses: diddlesnaps/snapcraft-review-action@v1
+      - name: Show log on build failure
+        if: ${{ failure() }}
+        run: |
+          cat /home/runner/.local/state/snapcraft/log/snapcraft*.log
+          exit 1
+
+      - name: Review snap
+        uses: diddlesnaps/snapcraft-review-action@v1
         with:
-          snap: ${{ steps.build.outputs.snap }}
+          snap: ${{ steps.snapcraft.outputs.snap }}
           isClassic: 'false'
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: snap
+          path: ${{ steps.snapcraft.outputs.snap }}
